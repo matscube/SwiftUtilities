@@ -45,6 +45,20 @@ func reversedImage(image: UIImage) -> UIImage {
     return UIGraphicsGetImageFromCurrentImageContext()
 }
 
+func singleColorImage(frame: CGRect, color: UIColor) -> UIImage {
+    UIGraphicsBeginImageContext(frame.size)
+    var context: CGContextRef = UIGraphicsGetCurrentContext()
+    CGContextSetFillColorWithColor(context, color.CGColor)
+    CGContextFillRect(context, frame)
+    
+    var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return image
+}
+
+singleColorImage(CGRectMake(0, 0, 100, 30), UIColor.redColor())
+
 
 let image: UIImage = triangleBottomImage()
 let rImage: UIImage = reversedImage(image)
