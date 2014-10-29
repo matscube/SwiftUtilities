@@ -57,8 +57,31 @@ func singleColorImage(frame: CGRect, color: UIColor) -> UIImage {
     return image
 }
 
+func circleColorImage(imageSize: CGFloat, radius: CGFloat, color: UIColor, strokeWidth: CGFloat, fill: Bool) -> UIImage {
+    UIGraphicsBeginImageContext(CGSizeMake(imageSize, imageSize))
+    var context: CGContextRef = UIGraphicsGetCurrentContext()
+    CGContextSetFillColorWithColor(context, color.CGColor)
+
+    let startPos: CGFloat = (imageSize - radius * 2) / 2
+    let rect = CGRectMake(startPos, startPos, radius*2, radius*2)
+    if fill {
+        CGContextFillEllipseInRect(context, rect)
+    } else {
+        CGContextSetLineWidth(context, strokeWidth)
+        CGContextSetStrokeColorWithColor(context, color.CGColor)
+        CGContextStrokeEllipseInRect(context, rect)
+    }
+    var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return image
+}
+
+
 singleColorImage(CGRectMake(0, 0, 100, 30), UIColor.redColor())
 
+var circleImageFill = circleColorImage(50, 24, UIColor.redColor(), 0.5, true)
+var circleImageBorder = circleColorImage(50, 24, UIColor.redColor(), 0.5, false)
 
 let image: UIImage = triangleBottomImage()
 let rImage: UIImage = reversedImage(image)
